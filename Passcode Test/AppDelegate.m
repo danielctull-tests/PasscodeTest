@@ -31,7 +31,18 @@
 
 	NSLog(@"%@ %@", string, string2);
 
-    return YES;
+	NSURL *temporaryDirectoryURL = [NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES];
+	NSURL *fileURL = [temporaryDirectoryURL URLByAppendingPathComponent:@"passcodetest"];
+	[@"" writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+	NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[fileURL path] error:NULL];
+
+	NSLog(@"Given: %@", [attributes objectForKey:NSFileProtectionKey]);
+	NSLog(@"%@", NSFileProtectionNone);
+	NSLog(@"%@", NSFileProtectionComplete);
+	NSLog(@"%@", NSFileProtectionCompleteUnlessOpen);
+	NSLog(@"%@", NSFileProtectionCompleteUntilFirstUserAuthentication);
+
+	return YES;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
